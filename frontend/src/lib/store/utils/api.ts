@@ -1,11 +1,10 @@
 import axios from 'axios';
-import { toast } from 'svelte-toast';
 
 // Set up Axios to include Authorization header from localStorage
 axios.interceptors.request.use((config) => {
     const token = localStorage.getItem('authToken');
     if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`;
+        config.headers['Authorization'] = `Basic ${token}`;
     }
     return config;
 }, (error) => {
@@ -17,7 +16,7 @@ axios.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            toast.error('Authentication failed. Please log in again.');
+            // toast.error('Authentication failed. Please log in again.');
             localStorage.clear();
         }
         return Promise.reject(error);

@@ -10,6 +10,7 @@ export interface ApiResult<T> {
     success: boolean;
     data?: T;
     error?: string;
+    status?: number;
 }
 
 // User API-specific data interfaces

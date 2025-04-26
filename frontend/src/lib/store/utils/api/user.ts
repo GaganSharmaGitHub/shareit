@@ -1,7 +1,7 @@
 import apiUtils from '../api';
-import { ApiResult, CreateUserData, GetUserData, UpdateUserData, DeleteUserData, ListUsersData } from './interfaces';
+import type { ApiResult, CreateUserData, GetUserData, UpdateUserData, DeleteUserData, ListUsersData } from './interfaces';
 
-const userApi = {
+export const userApi = {
     async createUser(data: CreateUserData): Promise<ApiResult<CreateUserData>> {
         try {
             const response = await apiUtils.post('/users/', data);
@@ -44,6 +44,19 @@ const userApi = {
             return { success: true, data: response };
         } catch (error) {
             return { success: false, error: error.message };
+        }
+    },
+
+    async getMe(): Promise<ApiResult<GetUserData>> {
+        try {
+            const response = await apiUtils.get('/me');
+            return { success: true, data: response };
+        } catch (error: any) {
+            return {
+                success: false,
+                error: error.message || 'An unknown error occurred',
+                status: error.response?.status || 500
+            };
         }
     },
 };

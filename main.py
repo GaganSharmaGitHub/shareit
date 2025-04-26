@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from controllers.user_controller import router as user_router
+from controllers.file_controller import router as file_router
 from fastapi.staticfiles import StaticFiles
 from fastapi.openapi.utils import get_openapi
 
@@ -8,6 +9,9 @@ app = FastAPI()
 
 # Include the user router
 app.include_router(user_router)
+
+# Include the file router
+app.include_router(file_router)
 
 # Serve static files from the 'public' folder on the root path
 app.mount("/", StaticFiles(directory="public", html=True), name="root-static")
@@ -26,20 +30,14 @@ def customize_openapi():
         app.openapi_schema["components"].update(
             {
                 "securitySchemes": {
-                    "BearerAuth": {
+                    "BasicAuth": {
                         "type": "http",
-                        "scheme": "bearer",
-                        "bearerFormat": "JWT",
-                    },
-                    "ApiKeyAuth": {
-                        "type": "apiKey",
-                        "in": "header",
-                        "name": "X-API-Key",
+                        "scheme": "basic",
                     },
                 }
             }
         )
-        app.openapi_schema["security"] = [{"BearerAuth": []}, {"ApiKeyAuth": []}]
+        app.openapi_schema["security"] = [{"BasicAuth": []}]
 
 
 customize_openapi()
