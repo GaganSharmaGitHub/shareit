@@ -1,0 +1,9 @@
+public
+.venv/
+**__pycache__**
+*.log
+.env
+screenshots
+recordings
+*.wav
+**node_modules**
