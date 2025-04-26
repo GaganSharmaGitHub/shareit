@@ -7,3 +7,5 @@ screenshots
 recordings
 *.wav
 **node_modules**
+db.json
+uploads
